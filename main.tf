@@ -1,6 +1,7 @@
 resource "exoscale_sks_cluster" "this" {
   zone    = var.zone
   name    = var.name
+  service_level = var.service_level
   version = var.kubernetes_version
 }
 
@@ -82,4 +83,14 @@ data "external" "kubeconfig" {
     cluster_id = exoscale_sks_cluster.this.id
     zone       = var.zone
   }
+}
+
+resource "local_file" "kube_config" {
+  content  = data.external.kubeconfig.result.kubeconfig
+  filename = "${path.module}/kubeconfig"
+}
+
+data "external" "getnodeips" {
+  depends_on = [local_file.kube_config, exoscale_sks_cluster.this]
+  program = ["bash", "nodes.sh"]
 }

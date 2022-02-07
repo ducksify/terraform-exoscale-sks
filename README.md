@@ -9,18 +9,18 @@ This module creates an SKS cluster with one or more node pools. It creates one s
 
 ```hcl
 module "sks" {
-  source  = "camptocamp/sks/exoscale"
-  version = "0.3.1"
+  source  = "registry.terraform.io/ducksify/sks/exoscale"
+  version = "0.3.2"
 
   name = "test"
-  zone = "de-fra-1"
+  zone = "ch-gva-2"
 
-  kubernetes_version = "1.21.3"
+  kubernetes_version = "1.22.5"
 
   nodepools = {
     "router" = {
-      instance_type = "standard.medium"
-      size          = 2
+      instance_type = "standard.small"
+      size          = 1
     },
     "compute" = {
       instance_type = "standard.small"

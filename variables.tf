@@ -13,6 +13,12 @@ variable "kubernetes_version" {
   type        = string
 }
 
+variable "service_level" {
+  description = "The SKS kubernetes service_level version to use. See the Exoscale documentation or portal for possible choices."
+  type        = string
+}
+
+
 variable "nodepools" {
   description = "The SKS node pools to create."
   type        = map(any)
