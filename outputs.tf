@@ -15,3 +15,4 @@ output "this_security_group_id" {
 output "nodeips" {
   value = jsondecode(data.external.getnodeips.result.nodes).items[*].status.addresses[0].address
 }
+

@@ -76,6 +76,8 @@ resource "null_resource" "wait_for_cluster" {
   }
 }
 
+
+
 data "external" "kubeconfig" {
   program = ["sh", "${path.module}/kubeconfig.sh"]
 
@@ -92,5 +94,9 @@ resource "local_file" "kube_config" {
 
 data "external" "getnodeips" {
   depends_on = [local_file.kube_config, exoscale_sks_cluster.this]
-  program = ["bash", "nodes.sh"]
+  program = ["bash", "${path.module}/nodes.sh"]
+
+  query = {
+    kubeconfig = "${path.module}/kubeconfig"
+  }
 }
