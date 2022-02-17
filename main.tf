@@ -88,8 +88,8 @@ data "external" "kubeconfig" {
 }
 
 resource "local_file" "kube_config" {
-  content  = data.external.kubeconfig.result.kubeconfig
   filename = "${path.module}/kubeconfig"
+  sensitive_content = "data.external.kubeconfig.result.kubeconfig"
 }
 
 data "external" "getnodeips" {
