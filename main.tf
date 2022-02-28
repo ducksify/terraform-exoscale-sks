@@ -16,16 +16,6 @@ resource "exoscale_security_group" "this" {
   name = format("nodepool-%s", var.name)
 }
 
-resource "exoscale_security_group_rule" "nodeport_services" {
-  count = var.node_ports_world_accessible ? 1 : 0
-
-  security_group_id = exoscale_security_group.this.id
-  type              = "INGRESS"
-  protocol          = "TCP"
-  cidr              = "0.0.0.0/0"
-  start_port        = 30000
-  end_port          = 32767
-}
 
 resource "exoscale_security_group_rule" "sks_logs" {
   security_group_id = exoscale_security_group.this.id
