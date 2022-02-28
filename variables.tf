@@ -41,3 +41,21 @@ variable "node_ports_world_accessible" {
   type        = bool
   default     = true
 }
+# Security group for accessing admin in cluster
+variable "sg-rules-admin" {
+  type = list(object({
+    port = string
+    cidr = list(string)
+  }))
+  default = [
+    {
+      "port" = "31443"
+      "cidr" = ["1.1.1.1/32", "2.2.2.2/32"]
+    },
+    {
+      "port" = "31080"
+      "cidr" = ["1.1.1.1/32", "2.2.2.2/32"]
+    },
+
+  ]
+}

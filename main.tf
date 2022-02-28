@@ -16,14 +16,24 @@ resource "exoscale_security_group" "this" {
   name = format("nodepool-%s", var.name)
 }
 
-
-resource "exoscale_security_group_rule" "sks_logs" {
+resource "exoscale_security_group_rule" "sks_kubelet" {
   security_group_id = exoscale_security_group.this.id
   type              = "INGRESS"
   protocol          = "TCP"
-  cidr              = "0.0.0.0/0"
+  user_security_group_id = exoscale_security_group.this.id
   start_port        = 10250
   end_port          = 10250
+}
+
+resource "exoscale_security_group_rules" "sks_admin" {
+  count = length(var.sg-rules-admin)
+  security_group_id = exoscale_security_group.this.id
+
+  ingress {
+    protocol  = "TCP"
+    ports = [var.sg-rules-admin[count.index].port]
+    cidr_list = var.sg-rules-admin[count.index].cidr
+  }
 }
 
 resource "exoscale_security_group_rule" "calico_traffic" {
