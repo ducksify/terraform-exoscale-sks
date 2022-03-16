@@ -12,7 +12,7 @@ output "this_security_group_id" {
   value = exoscale_security_group.this.id
 }
 
-output "nodeips" {
-  value =  [for ip in jsondecode(data.external.getnodeips.result.nodes).items : ip.status.addresses.0.address]
+output "nodesip" {
+  value =  local.nodesip
 }
 
