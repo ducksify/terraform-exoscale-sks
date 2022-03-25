@@ -17,6 +17,6 @@ done
 
 result=$(check_deploy)
 
-nodes=$(kubectl get node --kubeconfig $KUBECONFIG  -o json)
+nodes=$(kubectl get node --kubeconfig $KUBECONFIG  -o jsonpath="{.items[*].status.addresses[?(@.type=='ExternalIP')].address}")
 
 jq -M -r -s  -n --arg nodes "$nodes" '{"nodes":$nodes}'

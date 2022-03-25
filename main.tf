@@ -1,5 +1,5 @@
 locals {
-  nodesip = [for ip in jsondecode(data.external.getnodeips.result.nodes).items : ip.status.addresses.0.address]
+  nodesip = split(" ", data.external.getnodeips.result.nodes)
 }
 
 resource "exoscale_sks_cluster" "this" {
@@ -97,6 +97,7 @@ resource "local_sensitive_file" "kube_config" {
 }
 
 data "external" "getnodeips" {
+  
   depends_on = [local_sensitive_file.kube_config, exoscale_sks_cluster.this]
   program = ["bash", "${path.module}/nodes.sh"]
 
